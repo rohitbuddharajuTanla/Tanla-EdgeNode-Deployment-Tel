@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "CUAID": {
+      "value": "00000000-0000-0000-0000-000000000000"
+    },
+    "EventHubName": {
+      "value": "SIEVNTHUB2020MMnopoq"
+    },
+    "vnetAddressPrefix": {
+      "value": "192.168.16.0/23"
+    },
+    "Log_Analytics_workspace_Name": {
+      "value": "SIENTLogAltWS18030MMnopoq"
+    },
+    "Log_Analytics_workspace_location": {
+      "value": "southeastasia"
+    },
+    "servicePrincipalClientId": {
+      "value": "ae544a28-b75c-4adb-88e0-a860c59508d1"
+    },
+    "servicePrincipalClientSecret": {
+      "value": "VK1AA:9ehIl/46A=jOLxZVI[Vm-3Lqzl"
+    }
+  }
+}
