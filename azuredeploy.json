@@ -4,7 +4,7 @@
   "parameters": {
     "CUAID": {
       "type": "string",
-      "value": "00000000-0000-0000-0000-000000000000"
+      "defaultValue": "00000000-0000-0000-0000-000000000000"
     },
     "EventHubName": {
       "type": "string"
