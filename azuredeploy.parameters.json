@@ -6,13 +6,16 @@
       "value": "00000000-0000-0000-0000-000000000000"
     },
     "EventHubName": {
-      "value": "SIEVNTHUB2020MMnopoq"
+      "value": "SIEVNTHUBs232001rstu"
+    },
+    "EnterpriseNo": {
+      "value": "32"
     },
     "vnetAddressPrefix": {
       "value": "192.168.16.0/23"
     },
     "Log_Analytics_workspace_Name": {
-      "value": "SIENTLogAltWS18030MMnopoq"
+      "value": "SIENTLogAltWks232001rstu"
     },
     "Log_Analytics_workspace_location": {
       "value": "southeastasia"
