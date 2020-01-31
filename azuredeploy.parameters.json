@@ -5,7 +5,6 @@
     "CUAID": {
       "value": "00000000-0000-0000-0000-000000000000"
     },
-
     "EnterpriseNo": {
       "value": "32"
     },
@@ -13,7 +12,6 @@
       "value": "192.168.16.0/23"
     },
     "Log_Analytics_workspace_Name": {
-
       "value": "Perf-Tel-SI-LAWS"
     },
     "Log_Analytics_workspace_location": {
@@ -23,7 +21,7 @@
       "value": "84583ef3-c27f-4b2d-8bb-f8e79a3a456d"
     },
     "servicePrincipalClientSecret": {
-      "value": "ER.]U.HEu:9W2yiNoJ6SOAd6j"
+      "value": "ER.]U.HEu:9W2yiNoJ6SOAd6jm"
     }
   }
 }
