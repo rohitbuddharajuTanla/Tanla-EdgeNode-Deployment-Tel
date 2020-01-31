@@ -1,3 +1,4 @@
+
 {  //Telco Deployment with Redis Cache
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -64,14 +65,18 @@
       }
     }
   },
+
   "variables": {
     "SeperatedValues": "[split(resourceGroup().name,'RG')]"
   },
+
   "resources": [
     {
       "type": "Microsoft.EventHub/namespaces",
       "apiVersion": "2018-01-01-preview",
+
       "name": "[concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo'))]",
+
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard",
@@ -101,6 +106,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces', concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo')))]"
+
       ],
       "properties": {
         "rights": [
@@ -113,10 +119,12 @@
     {
       "type": "Microsoft.EventHub/namespaces/networkRuleSets",
       "apiVersion": "2018-01-01-preview",
+
       "name": "[concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo'), '/default')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces', concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo')))]"
+
       ],
       "properties": {
         "defaultAction": "Deny",
@@ -220,6 +228,7 @@
           }
         },
         "nodeResourceGroup": "[concat('MC_TBS-RG-SI-Entrp_', replace(resourceGroup().name,'RG-', ''), '_', resourceGroup().location )]",
+
         "enableRBAC": true,
         "networkProfile": {
           "networkPlugin": "azure",
@@ -240,9 +249,11 @@
     {
       "type": "Microsoft.ContainerService/managedClusters/agentPools",
       "apiVersion": "2019-10-01",
+
       "name": "[concat(replace(resourceGroup().name,'RG-', ''), '/agentpool')]",
       "dependsOn": [
         "[resourceId('Microsoft.ContainerService/managedClusters', replace(resourceGroup().name,'RG-', ''))]",
+
         "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]"
       ],
       "properties": {
@@ -279,3 +290,4 @@
   ]
 
 }
+

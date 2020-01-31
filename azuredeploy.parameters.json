@@ -5,6 +5,7 @@
     "CUAID": {
       "value": "00000000-0000-0000-0000-000000000000"
     },
+
     "EnterpriseNo": {
       "value": "32"
     },
@@ -12,6 +13,7 @@
       "value": "192.168.16.0/23"
     },
     "Log_Analytics_workspace_Name": {
+
       "value": "Perf-Tel-SI-LAWS"
     },
     "Log_Analytics_workspace_location": {
