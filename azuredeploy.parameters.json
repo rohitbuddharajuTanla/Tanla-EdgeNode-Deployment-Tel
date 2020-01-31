@@ -5,9 +5,7 @@
     "CUAID": {
       "value": "00000000-0000-0000-0000-000000000000"
     },
-    "EventHubName": {
-      "value": "SIEVNTHUBs232001rstu"
-    },
+
     "EnterpriseNo": {
       "value": "32"
     },
@@ -15,16 +13,17 @@
       "value": "192.168.16.0/23"
     },
     "Log_Analytics_workspace_Name": {
-      "value": "SIENTLogAltWks232001rstu"
+
+      "value": "Perf-Tel-SI-LAWS"
     },
     "Log_Analytics_workspace_location": {
       "value": "southeastasia"
     },
     "servicePrincipalClientId": {
-      "value": "ae544a28-b75c-4adb-88e0-a860c59508d1"
+      "value": "84583ef3-c27f-4b2d-8bb-f8e79a3a456d"
     },
     "servicePrincipalClientSecret": {
-      "value": "VK1AA:9ehIl/46A=jOLxZVI[Vm-3Lqzl"
+      "value": "ER.]U.HEu:9W2yiNoJ6SOAd6j"
     }
   }
 }
