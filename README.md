@@ -13,5 +13,9 @@ This sample template creates following Azure components and its dependencies.
 4. Log Analytics workspace
 5. Redis Cache
 
+Create a resource group before using the template using below command :
+
+PS> New-AzureRmResourceGroup <PERF-Tan-SI-RG-02> "South Central US"
+    
 The purpose of this template is to deploy AKS cluster with all of dependent resources.
 
