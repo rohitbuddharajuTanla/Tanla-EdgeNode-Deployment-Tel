@@ -91,7 +91,22 @@
       "name": "[concat(resourceGroup().name, '-NSG')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "securityRules": []
+        "securityRules": [
+          {
+            "name": "web_rule",
+            "properties": {
+              "description": "Allow WEB",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 101,
+              "direction": "Inbound"
+            }
+          }
+        ]
       }
     },
     {
@@ -195,7 +210,7 @@
           {
             "name": "agentpool",
             "count": 2,
-            "vmSize": "Standard_F8s",
+            "vmSize": "Standard_DS4_v2",
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
             "maxPods": 30,
@@ -247,7 +262,7 @@
       ],
       "properties": {
         "count": 2,
-        "vmSize": "Standard_F8s",
+        "vmSize": "Standard_DS4_v2",
         "osDiskSizeGB": 100,
         "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
         "maxPods": 30,
