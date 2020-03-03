@@ -214,6 +214,9 @@
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
             "maxPods": 30,
+            "enableAutoScaling": true,
+            "minCount": 3,
+            "maxCount": 12,
             "type": "VirtualMachineScaleSets",
             "orchestratorVersion": "1.15.7",
             "osType": "Linux"
