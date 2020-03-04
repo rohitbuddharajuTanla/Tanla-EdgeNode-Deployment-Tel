@@ -1,4 +1,4 @@
-{  //Telco Deployment with Redis Cache
+{ //Telco Deployment with Redis Cache
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -67,7 +67,7 @@
     {
       "type": "Microsoft.EventHub/namespaces",
       "apiVersion": "2018-01-01-preview",
-      "name": "[concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo'))]",
+      "name": "[concat(replace(resourceGroup().name,'RG-AKS-', ''), '-EH-agg-', parameters('EnterpriseNo'))]",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard",
@@ -108,10 +108,10 @@
     {
       "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
       "apiVersion": "2017-04-01",
-      "name": "[concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo'), '/RootManageSharedAccessKey')]",
+      "name": "[concat(replace(resourceGroup().name,'RG-AKS-', ''), '-EH-agg-', parameters('EnterpriseNo'), '/RootManageSharedAccessKey')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo')))]"
+        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(resourceGroup().name,'RG-AKS-', ''), '-EH-agg-', parameters('EnterpriseNo')))]"
       ],
       "properties": {
         "rights": [
@@ -124,10 +124,10 @@
     {
       "type": "Microsoft.EventHub/namespaces/networkRuleSets",
       "apiVersion": "2018-01-01-preview",
-      "name": "[concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo'), '/default')]",
+      "name": "[concat(replace(resourceGroup().name,'RG-AKS-', ''), '-EH-agg-', parameters('EnterpriseNo'), '/default')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', concat(variables('SeperatedValues')[0], 'EH-agg-', parameters('EnterpriseNo')))]"
+        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(resourceGroup().name,'RG-AKS-', ''), '-EH-agg-', parameters('EnterpriseNo')))]"
       ],
       "properties": {
         "defaultAction": "Deny",
