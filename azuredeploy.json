@@ -179,10 +179,9 @@
       "location": "[parameters('Log_Analytics_workspace_location')]",
       "properties": {
         "sku": {
-          "name": "CapacityReservation",
-          "capacityReservationLevel": 100
+          "name": "pergb2018"
         },
-        "retentionInDays": 120,
+        "retentionInDays": 30,
         "features": {
           "searchVersion": 1,
           "legacy": 0,
@@ -205,13 +204,13 @@
         "agentPoolProfiles": [
           {
             "name": "agentpool",
-            "count": 2,
+            "count": 1,
             "vmSize": "Standard_DS4_v2",
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
             "maxPods": 30,
             "enableAutoScaling": true,
-            "minCount": 3,
+            "minCount": 1,
             "maxCount": 12,
             "type": "VirtualMachineScaleSets",
             "orchestratorVersion": "1.15.7",
@@ -260,7 +259,7 @@
         "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]"
       ],
       "properties": {
-        "count": 2,
+        "count": 1,
         "vmSize": "Standard_DS4_v2",
         "osDiskSizeGB": 100,
         "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
@@ -273,7 +272,7 @@
     {
       "type": "Microsoft.Cache/Redis",
       "apiVersion": "2019-07-01",
-      "name": "[concat(resourceGroup().name, '-RedisCache')]",
+      "name": "[concat(replace(resourceGroup().name,'RG-AKS-', ''), '-RedisCache')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "sku": {
