@@ -60,6 +60,20 @@
               "priority": 101,
               "direction": "Inbound"
             }
+          },
+          {
+            "name": "web_rule_2",
+            "properties": {
+              "description": "Allow WEB 2",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8080",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 102,
+              "direction": "Inbound"
+            }
           }
         ]
       }
@@ -239,7 +253,10 @@
         "maxPods": 30,
         "type": "VirtualMachineScaleSets",
         "orchestratorVersion": "1.15.7",
-        "osType": "Linux"
+        "osType": "Linux",
+        "enableAutoScaling": true,
+        "minCount": 1,
+        "maxCount": 12
       }
     },
     {
