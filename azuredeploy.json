@@ -20,13 +20,13 @@
     }
   },
   "variables": {
-    "SeperatedValues": "[split(resourceGroup().name,'RG')]"
+    "NewRGName": "[replace(resourceGroup().name,'RG-', '')]"
   },
   "resources": [
     {
       "type": "Microsoft.EventHub/namespaces",
       "apiVersion": "2018-01-01-preview",
-      "name": "[replace(resourceGroup().name,'RG-AKS', 'EH')]",
+      "name": "[replace(variables('NewRGName'),'Tel', 'Tel-EvtHub')]",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard",
@@ -43,7 +43,7 @@
     {
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2019-09-01",
-      "name": "[concat(resourceGroup().name, '-NSG')]",
+      "name": "[concat(variables('NewRGName'), '-NSG')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "securityRules": [
@@ -81,10 +81,10 @@
     {
       "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
       "apiVersion": "2017-04-01",
-      "name": "[concat(replace(resourceGroup().name,'RG-AKS', 'EH'), '/RootManageSharedAccessKey')]",
+      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub'), '/RootManageSharedAccessKey')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(resourceGroup().name,'RG-AKS', 'EH')))]"
+        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub')))]"
       ],
       "properties": {
         "rights": [
@@ -97,10 +97,10 @@
     {
       "type": "Microsoft.EventHub/namespaces/eventhubs",
       "apiVersion": "2017-04-01",
-      "name": "[concat(replace(resourceGroup().name,'RG-AKS', 'EH'), '/aggregator-1')]",
+      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub'), '/aggregator-1')]",
       "location": "Central India",
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(resourceGroup().name,'RG-AKS', 'EH')))]"
+        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub')))]"
       ],
       "properties": {
         "messageRetentionInDays": 3,
@@ -111,10 +111,10 @@
     {
       "type": "Microsoft.EventHub/namespaces/networkRuleSets",
       "apiVersion": "2018-01-01-preview",
-      "name": "[concat(replace(resourceGroup().name,'RG-AKS', 'EH'), '/default')]",
+      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub'), '/default')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(resourceGroup().name,'RG-AKS', 'EH')))]"
+        "[resourceId('Microsoft.EventHub/namespaces', concat(replace(variables('NewRGName'),'Tel', 'Tel-EvtHub')))]"
       ],
       "properties": {
         "defaultAction": "Deny",
@@ -123,12 +123,12 @@
       }
     },
     {
-      "name": "[concat(resourceGroup().name, '-Vnet')]",
+      "name": "[concat(variables('NewRGName'), '-Vnet')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-04-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', concat(resourceGroup().name, '-NSG'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('NewRGName'), '-NSG'))]"
       ],
       "properties": {
         "addressSpace": {
@@ -144,15 +144,15 @@
     {
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "apiVersion": "2019-09-01",
-      "name": "[concat(resourceGroup().name,'-vnet/subnet1')]",
+      "name": "[concat(variables('NewRGName'), '-vnet/subnet1')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', concat(resourceGroup().name, '-Vnet'))]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups', concat(resourceGroup().name, '-NSG'))]"
+        "[resourceId('Microsoft.Network/virtualNetworks', concat(variables('NewRGName'), '-Vnet'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('NewRGName'), '-NSG'))]"
       ],
       "properties": {
         "addressPrefix": "[parameters('vnetAddressPrefix')]",
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(resourceGroup().name, '-NSG'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('NewRGName'), '-NSG'))]"
         },
         "delegations": [],
         "privateEndpointNetworkPolicies": "Enabled",
@@ -161,7 +161,7 @@
     },
     {
       "type": "Microsoft.OperationalInsights/workspaces",
-      "name": "[replace(resourceGroup().name,'AKS', 'LAWKS')]",
+      "name": "[replace(variables('NewRGName'),'Tel', 'Tel-LAWKS')]",
       "apiVersion": "2017-03-15-preview",
       "location": "southeastasia",
       "properties": {
@@ -179,22 +179,22 @@
     {
       "type": "Microsoft.ContainerService/managedClusters",
       "apiVersion": "2019-10-01",
-      "name": "[replace(resourceGroup().name,'RG-', '')]",
+      "name": "[replace(variables('NewRGName'),'Tel', 'Tel-AKS')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.OperationalInsights/workspaces', replace(resourceGroup().name,'AKS', 'LAWKS'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]"
+        "[resourceId('Microsoft.OperationalInsights/workspaces', replace(variables('NewRGName'),'Tel', 'Tel-LAWKS'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]"
       ],
       "properties": {
         "kubernetesVersion": "1.15.7",
-        "dnsPrefix": "[concat(resourceGroup().name, '-AKSClusterdns')]",
+        "dnsPrefix": "[concat(variables('NewRGName'), '-AKSClusterdns')]",
         "agentPoolProfiles": [
           {
             "name": "agentpool",
             "count": 1,
             "vmSize": "Standard_F8s",
             "osDiskSizeGB": 100,
-            "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
+            "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]",
             "maxPods": 30,
             "enableAutoScaling": true,
             "minCount": 1,
@@ -215,11 +215,11 @@
           "omsagent": {
             "enabled": true,
             "config": {
-              "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', replace(resourceGroup().name,'AKS', 'LAWKS'))]"
+              "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', replace(variables('NewRGName'),'Tel', 'Tel-LAWKS'))]"
             }
           }
         },
-        "nodeResourceGroup": "[concat('MC_TBS-RG-SI-Entrp_', replace(resourceGroup().name,'RG-', ''), '_', resourceGroup().location )]",
+        "nodeResourceGroup": "[concat('MC_TBS-RG-CI-Entrp_', variables('NewRGName'), '_', resourceGroup().location )]",
         "enableRBAC": true,
         "networkProfile": {
           "networkPlugin": "azure",
@@ -240,16 +240,16 @@
     {
       "type": "Microsoft.ContainerService/managedClusters/agentPools",
       "apiVersion": "2019-10-01",
-      "name": "[concat(replace(resourceGroup().name,'RG-', ''), '/agentpool')]",
+      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-AKS'), '/agentpool')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ContainerService/managedClusters', replace(resourceGroup().name,'RG-', ''))]",
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]"
+        "[resourceId('Microsoft.ContainerService/managedClusters', replace(variables('NewRGName'),'Tel', 'Tel-AKS'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]"
       ],
       "properties": {
         "count": 1,
         "vmSize": "Standard_F8s",
         "osDiskSizeGB": 100,
-        "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(resourceGroup().name, '-Vnet'), 'subnet1')]",
+        "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]",
         "maxPods": 30,
         "type": "VirtualMachineScaleSets",
         "orchestratorVersion": "1.15.7",
@@ -262,7 +262,7 @@
     {
       "type": "Microsoft.Cache/Redis",
       "apiVersion": "2019-07-01",
-      "name": "[concat(replace(resourceGroup().name,'RG-AKS-', ''), '-RedisCache')]",
+      "name": "[replace(variables('NewRGName'),'Tel', 'Tel-RedisCache')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "sku": {
