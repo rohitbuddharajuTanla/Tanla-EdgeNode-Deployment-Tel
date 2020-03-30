@@ -4,7 +4,7 @@
   "parameters": {
     "VnetAddressPrefix": {
       "type": "string",
-      "defaultValue": "192.168.16.0/23"
+      "defaultValue": "172.24.0.0/21"
     },
     "servicePrincipalClientId": {
       "type": "securestring",
@@ -178,7 +178,7 @@
     },
     {
       "type": "Microsoft.ContainerService/managedClusters",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-02-01",
       "name": "[replace(variables('NewRGName'),'Tel', 'Tel-AKS')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -190,15 +190,15 @@
         "dnsPrefix": "[concat(variables('NewRGName'), '-AKSClusterdns')]",
         "agentPoolProfiles": [
           {
-            "name": "agentpool",
-            "count": 1,
-            "vmSize": "Standard_F8s",
+            "name": "node1",
+            "count": 3,
+            "vmSize": "Standard_F16s",
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]",
             "maxPods": 30,
             "enableAutoScaling": true,
-            "minCount": 1,
-            "maxCount": 12,
+            "minCount": 3,
+            "maxCount": 20,
             "type": "VirtualMachineScaleSets",
             "orchestratorVersion": "1.15.7",
             "osType": "Linux"
@@ -219,7 +219,7 @@
             }
           }
         },
-        "nodeResourceGroup": "[concat('MC_TBS-RG-CI-Entrp_', variables('NewRGName'), '_', resourceGroup().location )]",
+        "nodeResourceGroup": "[concat('MC_TBS-RG-CI-Tel_', variables('NewRGName'), '_', resourceGroup().location )]",
         "enableRBAC": true,
         "networkProfile": {
           "networkPlugin": "azure",
@@ -234,20 +234,30 @@
           "dnsServiceIP": "10.0.0.10",
           "dockerBridgeCidr": "172.17.0.1/16",
           "outboundType": "loadBalancer"
+        },
+        "autoScalerProfile": {
+          "max-graceful-termination-sec": "600",
+          "scale-down-delay-after-add": "10m",
+          "scale-down-delay-after-delete": "10s",
+          "scale-down-delay-after-failure": "3m",
+          "scale-down-unneeded-time": "10m",
+          "scale-down-unready-time": "20m",
+          "scale-down-utilization-threshold": "0.5",
+          "scan-interval": "10s"
         }
       }
     },
     {
       "type": "Microsoft.ContainerService/managedClusters/agentPools",
-      "apiVersion": "2019-10-01",
-      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-AKS'), '/agentpool')]",
+      "apiVersion": "2020-02-01",
+      "name": "[concat(replace(variables('NewRGName'),'Tel', 'Tel-AKS'), '/node1')]",
       "dependsOn": [
         "[resourceId('Microsoft.ContainerService/managedClusters', replace(variables('NewRGName'),'Tel', 'Tel-AKS'))]",
         "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]"
       ],
       "properties": {
-        "count": 1,
-        "vmSize": "Standard_F8s",
+        "count": 3,
+        "vmSize": "Standard_F16s",
         "osDiskSizeGB": 100,
         "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]",
         "maxPods": 30,
@@ -255,8 +265,8 @@
         "orchestratorVersion": "1.15.7",
         "osType": "Linux",
         "enableAutoScaling": true,
-        "minCount": 1,
-        "maxCount": 12
+        "minCount": 3,
+        "maxCount": 20
       }
     },
     {
