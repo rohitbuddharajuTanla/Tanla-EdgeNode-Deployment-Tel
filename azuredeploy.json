@@ -1,4 +1,4 @@
-{ //TELco Deployment with Redis Cache
+{ //Telco Deployment with Redis Cache
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -25,7 +25,7 @@
   "resources": [
     {
       "type": "Microsoft.EventHub/namespaces",
-      "apiVersion": "2017-04-01",
+      "apiVersion": "2018-01-01-preview",
       "name": "[replace(variables('NewRGName'),'Tel', 'Tel-EvtHub1')]",
       "location": "[resourceGroup().location]",
       "sku": {
